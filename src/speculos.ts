@@ -17,7 +17,30 @@ export class Speculos {
         return response
     }
 
+    async deleteEvents() {
+        const response = await fetch(this.url + '/events', {
+            method: 'DELETE',
+        })
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+    }
+
+    async getEvents() {
+        const response = await fetch(this.url + '/events', {
+            method: 'GET',
+        })
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return await response.json() as { events: Array<{ text: string; x: number; y: number; }> }
+    }
+
     autoSignMessage() {
+        return this.enableRule(Rules.AutoSignMessage)
+    }
+
+    autoSignCertificate() {
         return this.enableRule(Rules.AutoSignMessage)
     }
 

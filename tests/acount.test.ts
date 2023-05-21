@@ -2,9 +2,9 @@ import { expect } from 'chai'
 import { Speculos } from '../src/speculos'
 import { decodeGetAccount, encodeGetAccount } from '../src/ledger'
 import { HDNode } from 'thor-devkit'
+import { seeds } from './utils'
 
 const backend = 'http://localhost:5001'
-const seeds = 'denial kitchen pet squirrel other broom bar gas better priority spoil cross'
 
 describe('account', () => {
     it('get account', async () => {
