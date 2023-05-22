@@ -36,12 +36,28 @@ export class Speculos {
         return await response.json() as { events: Array<{ text: string; x: number; y: number; }> }
     }
 
+    async button(button: 'left' | 'right' | 'both', action: 'press' | 'release' | 'press-and-release'){
+        const response = await fetch(this.url + '/button/'+button, {
+            method: 'POST',
+            body: JSON.stringify({ action: action })
+        })
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const body = await response.json()
+        return body
+    }
+
     autoSignMessage() {
         return this.enableRule(Rules.AutoSignMessage)
     }
 
     autoSignCertificate() {
         return this.enableRule(Rules.AutoSignMessage)
+    }
+
+    autoSignTransaction() {
+        return this.enableRule(Rules.AutoSignTransaction)
     }
 
     resetAutomation() {

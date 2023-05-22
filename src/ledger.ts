@@ -29,7 +29,7 @@ export const decodeGetAccount = (res: Buffer) => {
     
     return {
         publicKey: res.subarray(1, 1 + pubLen),
-        address: '0x'+ res.subarray(1 + pubLen +1, 1+pubLen+1+addressLen).toString('ascii').toLowerCase()
+        address: '0x'+ res.subarray(1 + pubLen +1, 1+pubLen+1+addressLen).toString('ascii')
     }
 }
 
