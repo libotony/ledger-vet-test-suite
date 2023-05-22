@@ -7,7 +7,9 @@
     "lint": "eslint . --ext ts",
     "speculos:clean": "docker rm -f speculos 2> /dev/null",
     "speculos:nanos": "npm run speculos:clean && docker run -d -v  $(pwd)/firmware:/speculos/firmware --publish 41000:41000 --publish 5001:5001 --name speculos speculos --display headless --vnc-port 41000 --api-port 5001 --seed 'denial kitchen pet squirrel other broom bar gas better priority spoil cross' firmware/nanos.elf ",
-    "test": "mocha -r ts-node/register 'tests/**/*.test.ts'"
+    "speculos:nanosp": "npm run speculos:clean && docker run -d -v  $(pwd)/firmware:/speculos/firmware --publish 41000:41000 --publish 5001:5001 --name speculos speculos --display headless --vnc-port 41000 --api-port 5001 --seed 'denial kitchen pet squirrel other broom bar gas better priority spoil cross' firmware/nanosp.elf ",
+    "speculos:nanox": "npm run speculos:clean && docker run -d -v  $(pwd)/firmware:/speculos/firmware --publish 41000:41000 --publish 5001:5001 --name speculos speculos --display headless --vnc-port 41000 --api-port 5001 --seed 'denial kitchen pet squirrel other broom bar gas better priority spoil cross' firmware/nanox.elf ",
+    "test": "mocha -r ts-node/register --timeout 20s 'tests/**/*.test.ts'"
   },
   "author": "tony.li",
   "license": "MIT",

@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import { Speculos } from '../src/speculos'
 import { decodeSignature, encodeSignTx } from '../src/ledger'
-import { verifySignature, publicKey } from './utils'
+import { verifySignature, publicKey, findNextScreen, ensureScreen } from './utils'
 import { address, Transaction} from 'thor-devkit'
 import { randomBytes } from 'crypto'
 
@@ -15,7 +15,16 @@ describe('sign transaction', () => {
         await client.button('both', 'press-and-release')
         await client.button('both', 'press-and-release')
         await client.button('right', 'press-and-release')
+        await client.deleteEvents()
         await client.button('both', 'press-and-release')
+        const { events } = await client.getEvents()
+        // nanox does not return to home when click back in settings sub menu
+        if (events[events.length - 1].text !== 'is ready') {
+            await client.button('right', 'press-and-release')
+            await client.button('right', 'press-and-release')
+            await client.button('both', 'press-and-release')
+        }
+
         // multi clause
         await client.button('right', 'press-and-release')
         await client.button('both', 'press-and-release')
@@ -23,7 +32,12 @@ describe('sign transaction', () => {
         await client.button('both', 'press-and-release')
         await client.button('right', 'press-and-release')
         await client.button('both', 'press-and-release')
-
+        // nanox does not return to home when click back in settings sub menu
+        if (events[events.length - 1].text !== 'is ready') {
+            await client.button('right', 'press-and-release')
+            await client.button('right', 'press-and-release')
+            await client.button('both', 'press-and-release')
+        }
         await client.autoSignTransaction()
     })
 
@@ -50,9 +64,21 @@ describe('sign transaction', () => {
         const { events } = await client.getEvents()
         const signature = decodeSignature(res)
 
-        const to =  `${events[5].text}${events[7].text}${events[9].text}`
+
+        let to = ''
+        for (const [i, e] of events.entries()) {
+            if (e.text === 'Amount') {
+                if (events[i + 2].text === 'Address') {
+                    to = `${events[i+3].text}${events[i+4].text}${events[i+5].text}`
+                } else {
+                    // nanos
+                    to =  `${events[i+3].text}${events[i+5].text}${events[i+7].text}`
+                }
+            }
+        }
+
         expect(verifySignature(encoded,signature, publicKey)).to.be.true
-        expect(events[11].text).equals('VTHO 0.21')
+        expect(findNextScreen(events, 'Max Fees')).equals('VTHO 0.21')
         expect(to).equals(address.toChecksumed(recipient))
     })
 
@@ -134,21 +160,12 @@ describe('sign transaction', () => {
         const { events } = await client.getEvents()
         const signature = decodeSignature(res)
 
+        console.log(events[3])
+        console.log(events[5])
         expect(verifySignature(encoded, signature, publicKey)).to.be.true
-        expect(events[3].text).equals('Data present')
-        expect(events[5].text).equals('Multiple Clauses')
+        expect(ensureScreen(events, 'Data present')).to.be.true
+        expect(ensureScreen(events, 'Multiple Clauses')).to.be.true
     })
-
-    // const simple: Array<{
-    //     chainTag: number,
-    //     blockRef: string,
-    //     expiration: number,
-    //     gasPriceCoef,
-    //     gas: number,
-    //     nonce: number,
-    //     dependsOn: string,
-    //     recipient: string
-    // }> = []
 
     const simple: Buffer[] = []
 

@@ -17,3 +17,24 @@ export const hashToDisplay = (hash: Buffer) => {
     const hex = hash.toString('hex').toUpperCase()
     return `${hex.slice(0, 4)}...${hex.slice(-4)}`
 }
+
+export const findNextScreen = (events: { text: string }[], key: string) => {
+    for (const [i, e] of events.entries()) {
+        if (e.text === key) {
+            if (events[i + 1]) {
+                return events[i+1].text
+            }
+            return null
+        }
+    }
+}
+
+export const ensureScreen = (events: { text: string }[], key: string) => {
+    for (const e of events) {
+        if (e.text === key) {
+            return true
+        }
+    }
+    return false
+}
+

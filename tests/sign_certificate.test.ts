@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import { Speculos } from '../src/speculos'
 import { decodeSignature, encodeSignCertificate } from '../src/ledger'
-import { verifySignature, publicKey, hashToDisplay } from './utils'
+import { verifySignature, publicKey, hashToDisplay, findNextScreen } from './utils'
 import { address, blake2b256, Certificate} from 'thor-devkit'
 import {faker} from '@faker-js/faker'
 
@@ -33,7 +33,7 @@ describe('sign certificate', () => {
         const {events} = await client.getEvents()
 
         const signature = decodeSignature(res)
-        expect(events[3].text).equal(hashToDisplay(hash))
+        expect(findNextScreen(events, 'Message hash')).equal(hashToDisplay(hash))
         expect(verifySignature(encoded,signature, publicKey)).to.be.true
     })
 
@@ -65,8 +65,8 @@ describe('sign certificate', () => {
             const {events} = await client.getEvents()
     
             const signature = decodeSignature(res)
-            expect(events[3].text).equal(hashToDisplay(hash))
-            expect(verifySignature(encoded,signature, publicKey)).to.be.true
+            expect(findNextScreen(events, 'Message hash')).equal(hashToDisplay(hash))
+            expect(verifySignature(encoded, signature, publicKey)).to.be.true
         })
     })
 

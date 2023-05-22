@@ -2,7 +2,7 @@ export const AutoSignMessage = {
     'version': 1,
     'rules': [
         {
-            'text': 'Sign', 'x': 41, 'y': 3,
+            'regexp': 'ign',
             'conditions': [
                 ['message',false]
             ],
@@ -11,14 +11,23 @@ export const AutoSignMessage = {
             ]
         },
         {
-            'text': 'Message hash', 'x': 28, 'y': 3,
+            'regexp': 'Sign',
+            'conditions': [
+                ['message',false]
+            ],
+            'actions': [
+                ['button', 2, true], ['button', 2, false],
+            ]
+        },
+        {
+            'regexp': 'Message hash',
             'actions': [
                 ['button', 2, true], ['button', 2, false],
                 ['setbool', 'message', true]
             ]
         },
         {
-            'text': 'Sign', 'x': 41, 'y': 3,
+            'regexp': 'Sign',
             'conditions': [
                 ['message',true]
             ],
@@ -44,7 +53,7 @@ export const AutoSignTransaction = {
     'version': 1,
     'rules': [
         {
-            'text': 'Review', 'x': 41, 'y': 3,
+            'regexp': 'Review',
             'actions': [
                 ['button', 2, true], ['button', 2, false],
             ]
@@ -67,13 +76,19 @@ export const AutoSignTransaction = {
                 ['button', 2, true], ['button', 2, false],
             ]
         }, {
-            'text': 'Accept', 'x': 41, 'y': 3,
+            'regexp': 'Accept',
             'actions': [
                 ['button', 1, true], ['button', 2, true],
                 ['button', 1, false],
             ],
         }, {
             'regexp': 'WARNING',
+            'actions': [
+                ['button', 1, true], ['button', 2, true],
+                ['button', 1, false],
+            ]
+        }, {
+            'regexp': 'WARNlNG',
             'actions': [
                 ['button', 1, true], ['button', 2, true],
                 ['button', 1, false],
