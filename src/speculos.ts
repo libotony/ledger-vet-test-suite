@@ -49,11 +49,11 @@ export class Speculos {
     }
 
     autoSignMessage() {
-        return this.enableRule(Rules.AutoSignMessage)
+        return this.enableRule(Rules.AutoSignCertMessage)
     }
 
     autoSignCertificate() {
-        return this.enableRule(Rules.AutoSignMessage)
+        return this.enableRule(Rules.AutoSignCertMessage)
     }
 
     autoSignTransaction() {

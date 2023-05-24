@@ -1,4 +1,4 @@
-export const AutoSignMessage = {
+export const AutoSignCertMessage = {
     'version': 1,
     'rules': [
         {
@@ -21,6 +21,13 @@ export const AutoSignMessage = {
         },
         {
             'regexp': 'Message hash',
+            'actions': [
+                ['button', 2, true], ['button', 2, false],
+                ['setbool', 'message', true]
+            ]
+        },
+        {
+            'regexp': 'Certificate hash',
             'actions': [
                 ['button', 2, true], ['button', 2, false],
                 ['setbool', 'message', true]

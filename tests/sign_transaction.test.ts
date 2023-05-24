@@ -160,8 +160,6 @@ describe('sign transaction', () => {
         const { events } = await client.getEvents()
         const signature = decodeSignature(res)
 
-        console.log(events[3])
-        console.log(events[5])
         expect(verifySignature(encoded, signature, publicKey)).to.be.true
         expect(ensureScreen(events, 'Data present')).to.be.true
         expect(ensureScreen(events, 'Multiple Clauses')).to.be.true

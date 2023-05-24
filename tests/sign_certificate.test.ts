@@ -11,7 +11,7 @@ const signer = address.fromPublicKey(publicKey)
 
 describe('sign certificate', () => {
     before(async () => {
-        await client.autoSignMessage()
+        await client.autoSignCertificate()
     })
 
     it('certificate', async () => {
@@ -33,7 +33,7 @@ describe('sign certificate', () => {
         const {events} = await client.getEvents()
 
         const signature = decodeSignature(res)
-        expect(findNextScreen(events, 'Message hash')).equal(hashToDisplay(hash))
+        expect(findNextScreen(events, 'Certificate hash')).equal(hashToDisplay(hash))
         expect(verifySignature(encoded,signature, publicKey)).to.be.true
     })
 
@@ -65,7 +65,7 @@ describe('sign certificate', () => {
             const {events} = await client.getEvents()
     
             const signature = decodeSignature(res)
-            expect(findNextScreen(events, 'Message hash')).equal(hashToDisplay(hash))
+            expect(findNextScreen(events, 'Certificate hash')).equal(hashToDisplay(hash))
             expect(verifySignature(encoded, signature, publicKey)).to.be.true
         })
     })
